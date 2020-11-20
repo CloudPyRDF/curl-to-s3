@@ -15,7 +15,7 @@ def lambda_handler(event, context):
     print("Starting request")
 
     # this should stream the response straight to s3 bucket
-    s3 = boto3.resource('s3')
+    s3 = boto3.client('s3')
     s3.upload_fileobj(
         Fileobj=http.request('GET', url, headers=header, preload_content=False),
         Bucket=event['s3_bucket_name'],
