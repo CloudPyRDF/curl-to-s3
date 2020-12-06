@@ -2,6 +2,7 @@ import json
 
 import boto3
 import urllib3
+import ssl
 
 
 def lambda_handler(event, context):
@@ -10,7 +11,12 @@ def lambda_handler(event, context):
     eos_url = 'https://cernbox.cern.ch/cernbox/webdav/eos/'
     if event.get("url"):
         eos_url = event['url']
-    http = urllib3.PoolManager()
+
+
+    cert_reqs = ssl.CERT_NONE
+    urllib3.disable_warnings()
+
+    http = urllib3.PoolManager(cert_reqs = cert_reqs)
     url = eos_url + event['eos_path'] + event['eos_filename']
     header = urllib3.make_headers(basic_auth=event['eos_login'] + ':' + event['eos_password'])
 
