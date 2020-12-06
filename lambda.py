@@ -16,11 +16,14 @@ def lambda_handler(event, context):
 
     # this should stream the response straight to s3 bucket
     s3 = boto3.client('s3')
-    s3.upload_fileobj(
+    result=s3.upload_fileobj(
         Fileobj=http.request('GET', url, headers=header, preload_content=False),
         Bucket=event['s3_bucket_name'],
         Key=event['s3_object_key']
     )
+    print(result)
+    print("finished")
+
 
     return {
         'statusCode': 200,
