@@ -11,8 +11,8 @@ eos_password = os.environ.get('eos_password')
 
 
 def lambda_handler(event, context):
-    print("Started")
-
+    print("starting with:")
+    print(event)
     eos_url = 'https://cernbox.cern.ch/cernbox/webdav/eos/'
     if event.get("url"):
         eos_url = event['url']
@@ -22,7 +22,9 @@ def lambda_handler(event, context):
 
     http = urllib3.PoolManager(cert_reqs=cert_reqs)
     url = f'{eos_url}{event["eos_path"]}{event["eos_filename"]}'
+    print(url)
     header = urllib3.make_headers(basic_auth=f'{eos_login}:{eos_password}')
+    print(header)
 
     print("Starting request")
 
